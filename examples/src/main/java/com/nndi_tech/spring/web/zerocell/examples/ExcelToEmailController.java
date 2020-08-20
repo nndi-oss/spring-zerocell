@@ -21,7 +21,7 @@ import java.util.List;
 @Import(SimpleJavaMailSpringSupport.class)
 public class ExcelToEmailController {
 
-    @Autowired // or roll your own, as long as SimpleJavaMailSpringSupport is processed first
+    @Autowired
     private Mailer mailer;
 
 
@@ -31,18 +31,14 @@ public class ExcelToEmailController {
     }
 
     private void sendEmailToCustomer(Customer customer) {
-        Email email = EmailBuilder.startingBlank()
-            .from("noreply@nndi-tech.com")
+        Email email = EmailBuilder.startingBlank().from("noreply@nndi-tech.com")
             .to(customer.getFullName(), customer.getEmail())
             .withSubject("Spring Zerocell Newsletter")
-            //.withHTMLText("<img src='cid:wink1'><b>We should meet up!</b><img src='cid:wink2'>")
             .withPlainText(String.format("Hello %s, \nPlease view this email in a modern email client!", customer.getFullName()))
             .buildEmail();
 
         Mailer mailer = MailerBuilder.withDebugLogging(true)
-            .withSessionTimeout(10 * 1000)
-            .withDebugLogging(true)
-            .async()
+            .withSessionTimeout(10 * 1000).async()
             .buildMailer();
 
         mailer.sendMail(email);
