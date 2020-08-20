@@ -1,7 +1,7 @@
 package com.nndi_tech.spring.web.zerocell.examples;
 
 import com.nndi_tech.spring.web.zerocell.ZerocellRequestBody;
-import com.nndi_tech.spring.web.zerocell.examples.Customer;
+import com.nndi_tech.spring.web.zerocell.examples.model.Customer;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.api.mailer.config.TransportStrategy;

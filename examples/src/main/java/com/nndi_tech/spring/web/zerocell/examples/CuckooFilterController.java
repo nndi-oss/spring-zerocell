@@ -1,7 +1,7 @@
 package com.nndi_tech.spring.web.zerocell.examples;
 
 import com.nndi_tech.spring.web.zerocell.ZerocellRequestBody;
-import com.nndi_tech.spring.web.zerocell.examples.Customer;
+import com.nndi_tech.spring.web.zerocell.examples.model.Customer;
 import net.cinnom.nanocuckoo.NanoCuckooFilter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,9 @@ public class CuckooFilterController {
     final NanoCuckooFilter cuckooFilter = new NanoCuckooFilter.Builder( 1024 )
         .withCountingEnabled( true ) // Enable counting
         .build();
+    
     final ConcurrentHashMap<String, Customer> customerDb = new ConcurrentHashMap<>();
+
     @PostMapping("/bloom/upload")
     public void uploadToFilter(@ZerocellRequestBody List<Customer> request) {
         request.forEach(customer-> {
