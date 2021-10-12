@@ -4,7 +4,7 @@
 
     <groupId>com.nndi-tech.labs</groupId>
     <artifactId>spring-zerocell</artifactId>
-    <version>0.2.</version>
+    <version>0.2.0</version>
 
     <name>Zerocell for Spring</name>
     <description>Upload Extract Excel files faster in Spring applications </description>
@@ -12,7 +12,7 @@
     <properties>
         <java.version>15</java.version>
         <zerocell.version>0.4.1</zerocell.version>
-        <spring.version>5.2.3.RELEASE</spring.version>
+        <spring.version>5.3.10</spring.version>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
