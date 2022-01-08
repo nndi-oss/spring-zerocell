@@ -3,6 +3,10 @@ Zerocell for Spring
 
 [zerocell](https://github.com/creditdatamw/zerocell) integration for Spring Boot. It enables you to upload and extract data quickly, efficiently and _automagically_ from Excel files in your Spring application controllers. It's so magical that you won't see or write any code to read and map data from an Excel Sheet to a POJO.
 
+> NOTE: This should not be considered production-ready.
+> We are working towards a stable release towards early February 2022.
+> YMMV
+
 ## Quick Start example
 
 The code below is a complete Spring Boot application that allows users to 
@@ -78,14 +82,12 @@ Add to your pom and enjoy :) :
 
 ```xml
 <dependency>
-    <groupId>com.nndi-tech.labs</groupId>
+    <groupId>cloud.nndi.oss</groupId>
     <artifactId>spring-zerocell</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
 </dependency>
 ```
 
-> NOTE: This should not be considered production-ready...ymmv
-
 ---
 
-Copyright (c) 2020, NNDI
+Copyright (c) 2022, NNDI
