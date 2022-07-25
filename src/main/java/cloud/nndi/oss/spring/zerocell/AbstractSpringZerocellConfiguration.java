@@ -1,4 +1,4 @@
-package com.nndi_tech.spring.web.zerocell;
+package cloud.nndi.oss.spring.zerocell;
 
 public abstract class AbstractSpringZerocellConfiguration {
 

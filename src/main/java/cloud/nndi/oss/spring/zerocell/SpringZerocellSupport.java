@@ -1,5 +1,5 @@
 
-package com.nndi_tech.spring.web.zerocell;
+package cloud.nndi.oss.spring.zerocell;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

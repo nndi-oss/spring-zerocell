@@ -1,4 +1,4 @@
-package com.nndi_tech.spring.web.zerocell;
+package cloud.nndi.oss.spring.zerocell;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.HttpMessageConverter;

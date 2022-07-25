@@ -1,4 +1,4 @@
-package com.nndi_tech.spring.web.zerocell;
+package cloud.nndi.oss.spring.zerocell;
 
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
