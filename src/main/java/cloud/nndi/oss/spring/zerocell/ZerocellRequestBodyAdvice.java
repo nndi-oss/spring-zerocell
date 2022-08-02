@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @ControllerAdvice
 public class ZerocellRequestBodyAdvice extends RequestBodyAdviceAdapter {
-
     @Override
     public boolean supports(MethodParameter methodParameter, Type type, Class<? extends HttpMessageConverter<?>> aClass) {
         Objects.requireNonNull(methodParameter, "methodParameter");

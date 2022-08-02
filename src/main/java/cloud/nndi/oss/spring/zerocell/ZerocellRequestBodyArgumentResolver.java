@@ -28,12 +28,14 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
+/**
+ * ArgumentResolver that handles the @{@link ZerocellRequestBody} annotation
+ */
 public class ZerocellRequestBodyArgumentResolver extends AbstractMessageConverterMethodArgumentResolver implements HandlerMethodArgumentResolver {
     private static final String TEMP_FILE_PREFIX = "_chinthu";
 
     public ZerocellRequestBodyArgumentResolver() {
-        super(singletonList(new ZerocellRequestBodyConverter()),
-            singletonList(new ZerocellRequestBodyAdvice()));
+        super(singletonList(new ZerocellRequestBodyConverter()), singletonList(new ZerocellRequestBodyAdvice()));
     }
 
     @Override
@@ -43,7 +45,7 @@ public class ZerocellRequestBodyArgumentResolver extends AbstractMessageConverte
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-              NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         parameter = parameter.nestedIfOptional();
 
         HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
@@ -53,35 +55,47 @@ public class ZerocellRequestBodyArgumentResolver extends AbstractMessageConverte
 
         final String genericTypeName = parameter.getNestedGenericParameterType().getTypeName();
 
-        if (! genericTypeName.contains(java.util.List.class.getTypeName())) {
+        if (!genericTypeName.contains(java.util.List.class.getTypeName())) {
             throw new HttpMessageNotReadableException("Invalid container type for ZerocellRequestBody parameter, must be java.util.List", inputMessage);
         }
+
         String sheetName = EntityHandler.DEFAULT_SHEET;
-        String uploadFileName = "file";
+        String uploadFileName = "";
 
         ZerocellRequestBody annotation = parameter.getParameterAnnotation(ZerocellRequestBody.class);
-        if (annotation != null) {
-            uploadFileName = annotation.formFile();
-            if (! annotation.sheetName().isEmpty()) {
-                sheetName = annotation.sheetName();
-            }
+        if (annotation == null) {
+            throw new IllegalArgumentException("Cannot handle request that toes not have @ZerocellRequestBody annotation");
+        }
+
+
+        uploadFileName = annotation.formFile();
+        if (uploadFileName == null || uploadFileName.isEmpty()) {
+            throw new IllegalArgumentException("Upload Filename on @ZerocellRequestBody annotation must be specified and non-empty");
+        }
+
+        if (!annotation.sheetName().isEmpty()) {
+            sheetName = annotation.sheetName();
         }
 
         Object arg = resolveArgumentInternal(uploadFileName, sheetName,
-            parameter.getNestedGenericParameterType(), inputMessage);
+                parameter.getNestedGenericParameterType(), inputMessage);
 
         if (arg == null) {
             throw new HttpMessageNotReadableException("Required request body is missing: " +
-                parameter.getExecutable().toGenericString(), inputMessage);
+                    parameter.getExecutable().toGenericString(), inputMessage);
         }
 
         return arg;
     }
 
     @SuppressWarnings("unchecked")
-    protected List<Object> resolveArgumentInternal(String uploadFileName, String sheetName,
-               Type type, HttpInputMessage httpInputMessage) throws HttpMessageNotReadableException {
-        assert(httpInputMessage instanceof ServletServerHttpRequest);
+    protected List<Object> resolveArgumentInternal(String uploadFileName,
+                                                   String sheetName,
+                                                   Type type,
+                                                   HttpInputMessage httpInputMessage) throws HttpMessageNotReadableException {
+        if (! (httpInputMessage instanceof ServletServerHttpRequest)) {
+            throw new HttpMessageNotReadableException("httpInputMessage must be instance of " + ServletServerHttpRequest.class.getName(), httpInputMessage);
+        }
 
         if (((ParameterizedType) type).getActualTypeArguments().length < 1) {
             throw new HttpMessageNotReadableException("Method parameter does not have required Type argument.", httpInputMessage);
@@ -92,8 +106,8 @@ public class ZerocellRequestBodyArgumentResolver extends AbstractMessageConverte
 
         if (Reader.columnsOf(typeArgumentClass).length < 1) {
             throw new HttpMessageNotReadableException(String.format(
-                "Invalid class: %s does not contain zerocell @Column annotations", typeArgumentClass.getName()),
-                httpInputMessage);
+                    "Invalid class: %s does not contain zerocell @Column annotations", typeArgumentClass.getName()),
+                    httpInputMessage);
         }
 
         ServletServerHttpRequest servletServerHttpRequest = (ServletServerHttpRequest) httpInputMessage;
@@ -132,7 +146,7 @@ public class ZerocellRequestBodyArgumentResolver extends AbstractMessageConverte
         List data = entityHandler.readAsList();
         entityHandler = null;
 
-        if (! filePath.toFile().delete()) {
+        if (!filePath.toFile().delete()) {
             LoggerFactory.getLogger(getClass()).warn("Failed to delete temporary file: " + filePath);
         }
 

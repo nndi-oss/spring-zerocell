@@ -7,8 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+/**
+ * Implements support for spring-zerocell
+ */
 @Configuration
-// @org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SpringZerocellSupport implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
