@@ -4,7 +4,7 @@
 
     <groupId>cloud.nndi.oss</groupId>
     <artifactId>spring-zerocell</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 
     <name>Zerocell for Spring</name>
     <description>Upload Extract Excel files faster in Spring applications </description>
